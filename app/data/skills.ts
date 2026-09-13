@@ -17,7 +17,7 @@ export const skills: Skill[] = [
   {
     id: 2,
     name: "AutoCad 2d",
-    icon: "/icons/autocad.png",
+    icon: "/icons/AutoCad.png",
     color: "#DE472F",
     value: 95,
   },
