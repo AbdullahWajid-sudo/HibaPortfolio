@@ -9,7 +9,7 @@ const ORBIT_DATA = [
   {
     radius: 1,
     speed: 0.3,
-    logos: ["/icons/AutoCad.png", "/icons/Sketchup.png"],
+    logos: ["/icons/autocad.png", "/icons/Sketchup.png"],
   },
   {
     radius: 2.25,
