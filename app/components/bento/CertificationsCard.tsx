@@ -58,16 +58,14 @@ export function CertificationsCard() {
           <div className="cert-carousel relative overflow-hidden rounded-4xl border border-white/10 bg-black/20">
             <div className="cert-carousel-track flex gap-4 px-3 py-4">
               {[
-                "/certification/c1.webp",
-                "/certification/c2.webp",
-                "/certification/c3.webp",
-                "/certification/c4.webp",
+                "/certification/LCWU.jpeg",
+                "/certification/MEC.jpeg",
+                "/certification/Mendel.jpeg",
               ]
                 .concat([
-                  "/certification/c1.webp",
-                  "/certification/c2.webp",
-                  "/certification/c3.webp",
-                  "/certification/c4.webp",
+                  "/certification/LCWU.jpeg",
+                  "/certification/MEC.jpeg",
+                  "/certification/Mendel.jpeg",
                 ])
                 .map((src, idx) => (
                   <div

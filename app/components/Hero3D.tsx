@@ -3,29 +3,29 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo } from "react";
 import * as THREE from "three";
-import { useTexture, Float, Environment } from "@react-three/drei";
+import { useTexture, Float } from "@react-three/drei";
 
 const ORBIT_DATA = [
   {
     radius: 1,
     speed: 0.3,
-    logos: ["/icons/typescript.svg", "/icons/javascript.svg"],
-  }, // Inner (2)
+    logos: ["/icons/autocad.png", "/icons/Sketchup.png"],
+  },
   {
     radius: 2.25,
     speed: 0.2,
-    logos: ["/icons/react.svg", "/icons/nextjs.svg", "/icons/python.svg"],
-  }, // Middle (3)
+    logos: ["/icons/d5.png", "/icons/Photoshop.png", "/icons/vray.png"],
+  },
   {
     radius: 3.5,
     speed: 0.25,
     logos: [
-      "/icons/supabase.svg",
-      "/icons/firebase.svg",
-      "/icons/git.svg",
-      "/icons/prisma.svg",
+      "/icons/Lumion.png",
+      "/icons/enscape.png",
+      "/icons/3dmax.png",
+      "/icons/blender.png",
     ],
-  }, // Outer (4)
+  },
 ];
 
 function Cube({
@@ -39,51 +39,63 @@ function Cube({
   speed: number;
   startAngle: number;
 }) {
-  const ref = useRef<THREE.Mesh>(null);
-  const originalTexture = useTexture(texturePath);
+  const meshRef = useRef<THREE.Group>(null);
+
+  const loadedTexture = useTexture(texturePath);
 
   const texture = useMemo(() => {
-    const t = originalTexture.clone();
-    t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+    const t = loadedTexture.clone();
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.generateMipmaps = true;
+    t.minFilter = THREE.LinearMipmapLinearFilter;
+    t.magFilter = THREE.LinearFilter;
+    t.needsUpdate = true;
     return t;
-  }, [originalTexture]);
+  }, [loadedTexture]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
 
-    if (ref.current) {
-      // 🌀 Use the same speed for the orbit, but offset by the startAngle to maintain gap
+    if (meshRef.current) {
       const currentAngle = t * speed + startAngle;
 
-      ref.current.position.x = Math.cos(currentAngle) * radius;
-      ref.current.position.y = Math.sin(currentAngle) * radius;
-      ref.current.position.z = Math.sin(t * 0.5 + startAngle) * 0.5;
+      meshRef.current.position.x = Math.cos(currentAngle) * radius;
+      meshRef.current.position.y = Math.sin(currentAngle) * radius;
+      meshRef.current.position.z = Math.sin(t * 0.5 + startAngle) * 0.5;
 
-      // 🔄 Individual spin
-      ref.current.rotation.x += 0.005;
-      ref.current.rotation.y += 0.005;
+      meshRef.current.rotation.x += 0.005;
+      meshRef.current.rotation.y += 0.005;
 
-      // Fix perspective size variation - scale based on z-position
-      const zOffset = ref.current.position.z;
+      const zOffset = meshRef.current.position.z;
       const scale = 1 - zOffset * 0.15;
-      ref.current.scale.setScalar(scale);
+      meshRef.current.scale.setScalar(scale);
     }
   });
 
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.8}>
-      <mesh ref={ref}>
-        <boxGeometry args={[0.8, 0.8, 0.8]} />
-        <meshStandardMaterial
-          map={texture}
-          color="#ffffff"
-          transparent
-          roughness={0.1}
-          metalness={0.5}
-          emissive="#000000"
-          emissiveIntensity={0.05}
-        />
-      </mesh>
+      <group ref={meshRef}>
+        {/* 1. Inner Solid Box - White / Light Gray background */}
+        <mesh>
+          <boxGeometry args={[0.78, 0.78, 0.78]} />
+          <meshStandardMaterial
+            color="#ffffff"
+            roughness={0.1}
+            metalness={0.0}
+          />
+        </mesh>
+
+        {/* 2. Outer Icon Overlay - Clean transparent rendering */}
+        <mesh>
+          <boxGeometry args={[0.8, 0.8, 0.8]} />
+          <meshStandardMaterial
+            map={texture}
+            transparent
+            depthWrite={false}
+            roughness={0.1}
+          />
+        </mesh>
+      </group>
     </Float>
   );
 }
@@ -91,19 +103,28 @@ function Cube({
 export default function Scene3D() {
   return (
     <div className="h-full w-full">
-      <Canvas camera={{ position: [0, 2, 10], fov: 50 }}>
-        {/* 🌑 Soft lighting */}
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-        <pointLight position={[-5, -5, -5]} intensity={0.5} />
+      <Canvas
+        dpr={[1, 2]}
+        gl={{
+          antialias: true,
+          powerPreference: "high-performance",
+        }}
+        camera={{ position: [0, 2, 10], fov: 50 }}
+      >
+        <ambientLight intensity={1.5} />
+        <directionalLight
+          position={[5, 5, 5]}
+          intensity={1.8}
+          color="#ffffff"
+        />
+        <directionalLight
+          position={[-5, -5, -5]}
+          intensity={0.4}
+          color="#bf0a30"
+        />
 
-        {/* 🌍 Reflection */}
-        <Environment preset="forest" />
+        <fog attach="fog" args={["#dcdcdc", 10, 20]} />
 
-        {/* 🌫️ Depth fog */}
-        <fog attach="fog" args={["#000000", 12, 22]} />
-
-        {/* 🌀 Tilt group for 3D feel */}
         <group rotation={[0, 0, 0]}>
           {ORBIT_DATA.map((orbit) =>
             orbit.logos.map((path, index) => (
@@ -118,13 +139,12 @@ export default function Scene3D() {
           )}
         </group>
 
-        {/* 🔵 Orbit Rings (match vertical plane) */}
         {ORBIT_DATA.map((orbit, i) => (
           <mesh key={i}>
             <ringGeometry
-              args={[orbit.radius - 0.01, orbit.radius + 0.01, 128]}
+              args={[orbit.radius - 0.008, orbit.radius + 0.008, 128]}
             />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.08} />
+            <meshBasicMaterial color="#1e1e1e" transparent opacity={0.15} />
           </mesh>
         ))}
       </Canvas>

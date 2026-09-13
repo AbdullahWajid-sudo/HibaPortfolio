@@ -53,7 +53,7 @@ export function AnimatedCircleWithNumber({
     return () => clearInterval(timer);
   }, [isVisible, targetProgress, duration]);
 
-  const fullDashArray = 301.5;
+  const fullDashArray = 322.5;
   const fullDashOffset = 30;
   const currentOffset =
     fullDashArray - (progress / 100) * (fullDashArray - fullDashOffset);
@@ -79,7 +79,7 @@ export function AnimatedCircleWithNumber({
           cx="50"
           cy="50"
           r="48"
-          stroke="#adc6ff"
+          stroke="#bf0a30"
           strokeWidth="4"
           strokeDasharray={fullDashArray}
           strokeDashoffset={currentOffset}

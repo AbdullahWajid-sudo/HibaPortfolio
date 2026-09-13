@@ -124,7 +124,7 @@ export default function ContactModal({
           <h2 className="text-3xl md:text-4xl font-headline font-bold tracking-tight mb-2">
             Let Talk
           </h2>
-          <p className="text-on-surface-variant text-lg">
+          <p className="text-white text-lg">
             Fill out the form below and Ill get back to you soon.
           </p>
         </div>

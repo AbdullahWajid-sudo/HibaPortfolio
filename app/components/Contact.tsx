@@ -20,7 +20,7 @@ export default function Contact() {
               LETS BUILD <br /> SOMETHING{" "}
               <span className="text-tertiary">TOGETHER</span>
             </h2>
-            <p className="text-on-surface-variant text-xl max-w-2xl mx-auto font-light">
+            <p className="text-white text-xl max-w-2xl mx-auto font-light">
               Currently seeking new opportunities and architectural challenges.
               Lets discuss your next digital evolution.
             </p>
@@ -34,7 +34,7 @@ export default function Contact() {
               <div className="flex gap-4">
                 <a
                   className="w-17 h-17 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors"
-                  href="https://wa.me/03334460145"
+                  href="https://wa.me/+923330009490"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

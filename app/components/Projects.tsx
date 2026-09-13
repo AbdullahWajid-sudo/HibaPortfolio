@@ -11,7 +11,11 @@ export default function Projects() {
 
   return (
     <main>
-      <section className="py-32 bg-background overflow-hidden" id="projects">
+      <section
+        className="py-32 bg-[#34171e] relative overflow-hidden"
+        id="projects"
+      >
+        <div className="absolute inset-0 grid-bg opacity-15"></div>
         <div className="max-w-7xl mx-auto px-8 relative">
           <div className="mb-24 text-center space-y-4">
             <label className="text-tertiary font-label text-xs uppercase tracking-[0.3em] font-semibold mb-2  ">
@@ -58,7 +62,7 @@ export default function Projects() {
                 {showAll ? "Show Less" : "Explore Full Archive"}
               </span>
               <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 text-on-primary transition-opacity duration-300">
+              <span className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 text-white transition-opacity duration-300">
                 {showAll ? "Show Less" : "Explore Full Archive"}
               </span>
             </button>

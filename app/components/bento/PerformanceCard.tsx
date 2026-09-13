@@ -17,11 +17,10 @@ export function PerformanceCard() {
         <AnimatedCircleWithNumber targetProgress={99.9} duration={1000} />
         <div className="space-y-2">
           <p className="text-sm font-label uppercase tracking-[0.3em] text-on-surface-variant font-bold border-y border-white/5 py-2">
-            FRICTIONLESS SPEED
+            BESPOKE PRECISION
           </p>
           <p className="text-md text-on-surface-variant/80 font-light leading-relaxed">
-            Optimized for maximum retention through ultra-fast rendering and
-            perfect Lighthouse execution.
+            Crafted for ultimate peace of mind through hyper-detailed material selection and personalized space planning.
           </p>
         </div>
       </div>
